@@ -2,12 +2,18 @@ server:
   port: 8089
 
 spring:
+  application:
+    name: CONFIG-SERVER
+    profiles:
+      active: native
   cloud:
     config:
       server:
         git:
-          uri: [Your Git Repository URL]
+          uri: https://github.com/Sithum1220/Highway-Ticket-Management-System.git
           clone-on-start: true
+
+
 
 eureka:
   client:
