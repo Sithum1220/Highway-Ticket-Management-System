@@ -4,8 +4,20 @@ server:
 spring:
   application:
     name: API-GATEWAY
-
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          - id: TICKET-SERVICE
+            uri: lb://ticket-service
+            predicates:
+              - Path=/api/v1/tickets/**
+          - id: VEHICLE-SERVICE
+            uri: lb://vehicle-service
+            predicates:
+              - Path=/api/v1/vehicles/**
 eureka:
   client:
+    register-with-eureka: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
