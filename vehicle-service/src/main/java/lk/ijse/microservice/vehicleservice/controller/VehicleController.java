@@ -25,4 +25,20 @@ public class VehicleController {
         return new ResponseUtil("200","Successfully fetch all vehicles",vehicleService.getAllVehicles());
     }
 
+    @GetMapping(params = "vehicleId", path = "/getVehicle")
+    public ResponseUtil getVehicleById(@RequestParam("vehicleId") String vehicleId) {
+        return new ResponseUtil("200","Successfully fetch vehicle",vehicleService.getVehicle(vehicleId));
+    }
+
+    @PatchMapping
+    public ResponseUtil update(@RequestBody VehicleDTO vehicle) {
+        vehicleService.updateVehicle(vehicle);
+        return new ResponseUtil("200","Successfully updated vehicle",null);
+    }
+
+    @DeleteMapping
+    public ResponseUtil delete(@RequestParam("vehicleId") String vehicleId) {
+        vehicleService.deleteVehicle(vehicleId);
+        return new ResponseUtil("200","Successfully deleted vehicle",null);
+    }
 }
