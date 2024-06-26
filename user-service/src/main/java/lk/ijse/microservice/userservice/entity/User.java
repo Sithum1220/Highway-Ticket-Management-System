@@ -1,4 +1,4 @@
-package lk.ijse.microservice.vehicleservice.entity;
+package lk.ijse.microservice.userservice.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -10,11 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Vehicle {
-
+public class User {
     @Id
-    private String vehicleId;
-    private String licensePlate;
-    private String model;
-    private String userId;
+    private String nic;
+    private String name;
+    private String contactNo;
 }

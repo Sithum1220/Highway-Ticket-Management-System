@@ -15,5 +15,5 @@ public class VehicleDTO {
     private String vehicleId;
     private String licensePlate;
     private String model;
-    private String ownerName;
+    private String userId;
 }

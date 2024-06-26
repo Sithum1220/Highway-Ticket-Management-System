@@ -15,10 +15,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Ticket {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private Long vehicleId;
+    private String id;
+    private String vehicleId;
     private Long userId;
     private String status;
     private LocalDateTime issueDate;

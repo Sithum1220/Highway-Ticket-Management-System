@@ -7,7 +7,9 @@ import lk.ijse.microservice.vehicleservice.repository.VehicleRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -16,10 +18,12 @@ public class VehicleServiceImpl implements VehicleService {
 
     private final VehicleRepository vehicleRepository;
     private final ModelMapper modelMapper;
+    RestTemplate restTemplate;
 
-    public VehicleServiceImpl(VehicleRepository vehicleRepository, ModelMapper modelMapper) {
+    public VehicleServiceImpl(VehicleRepository vehicleRepository, ModelMapper modelMapper, RestTemplate restTemplate) {
         this.vehicleRepository = vehicleRepository;
         this.modelMapper = modelMapper;
+        this.restTemplate = restTemplate;
     }
 
     @Override
@@ -39,7 +43,13 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public void saveVehicle(VehicleDTO vehicle) {
         if (!vehicleRepository.existsById(modelMapper.map(vehicle,Vehicle.class).getVehicleId())) {
-            vehicleRepository.save(modelMapper.map(vehicle,Vehicle.class));
+            Boolean isOwnerValid = restTemplate.getForObject("http://USER-SERVICE/api/v1/users/"+vehicle.getUserId(), Boolean.class);
+            System.out.println(isOwnerValid);
+            if (Boolean.TRUE.equals(isOwnerValid)) {
+                vehicleRepository.save(modelMapper.map(vehicle,Vehicle.class));
+            }else {
+                throw new RuntimeException("user Not Found!");
+            }
         } else {
             throw new RuntimeException("Vehicle already exists!");
         }
@@ -57,7 +67,12 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public void updateVehicle(VehicleDTO vehicle) {
         if (vehicleRepository.existsById(modelMapper.map(vehicle,Vehicle.class).getVehicleId())) {
-            vehicleRepository.save(modelMapper.map(vehicle,Vehicle.class));
+            Vehicle vehicle1 = vehicleRepository.findById(vehicle.getVehicleId()).get();
+            if (vehicle1.getUserId().equals(vehicle.getUserId())){
+                vehicleRepository.save(modelMapper.map(vehicle,Vehicle.class));
+            }else {
+                throw new RuntimeException("Can't update the User Id!");
+            }
         } else {
             throw new RuntimeException("Vehicle Not Found!");
         }
