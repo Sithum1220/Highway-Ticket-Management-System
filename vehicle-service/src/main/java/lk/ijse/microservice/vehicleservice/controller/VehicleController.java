@@ -41,4 +41,14 @@ public class VehicleController {
         vehicleService.deleteVehicle(vehicleId);
         return new ResponseUtil("200","Successfully deleted vehicle",null);
     }
+
+    @GetMapping(path = "/checkVehicle/{vehicleId}")
+    public boolean checkVehicleExistence(@PathVariable("vehicleId") String vehicleId) {
+        return vehicleService.existVehicle(vehicleId);
+    }
+
+    @GetMapping(path = "/checkUser/{userId}")
+    public boolean checkUserExistence(@PathVariable("userId") String userId) {
+        return vehicleService.existUsers(userId);
+    }
 }

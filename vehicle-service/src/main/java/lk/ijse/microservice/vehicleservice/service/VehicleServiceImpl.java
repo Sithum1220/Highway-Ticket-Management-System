@@ -77,4 +77,14 @@ public class VehicleServiceImpl implements VehicleService {
             throw new RuntimeException("Vehicle Not Found!");
         }
     }
+
+    @Override
+    public boolean existVehicle(String vehicleId) {
+        return vehicleRepository.existsById(vehicleId);
+    }
+
+    @Override
+    public boolean existUsers(String userId) {
+        return vehicleRepository.existsByUserId(userId);
+    }
 }
