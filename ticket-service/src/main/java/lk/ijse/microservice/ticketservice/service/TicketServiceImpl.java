@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TicketServiceImpl implements TicketService {
@@ -42,6 +43,7 @@ public class TicketServiceImpl implements TicketService {
 
             if (Boolean.TRUE.equals(isVehicleExist) && Boolean.TRUE.equals(isUserExist)) {
                 ticket.setIssueDate(LocalDateTime.now());
+                ticket.setStatus("Not Paid");
                 ticketRepository.save(modelMapper.map(ticket, Ticket.class));
             }else {
                 throw new RuntimeException("Invalid ticket");
@@ -74,5 +76,16 @@ public class TicketServiceImpl implements TicketService {
         }else {
             throw new RuntimeException("Ticket does not exist");
         }
+    }
+
+    @Override
+    public boolean existsTicket(String id) {
+        return ticketRepository.existsById(id);
+    }
+
+    @Override
+    public void updateTicketStatus(String id) {
+        Ticket ticket = ticketRepository.findById(id).get();
+        ticket.setStatus("Paid");
     }
 }

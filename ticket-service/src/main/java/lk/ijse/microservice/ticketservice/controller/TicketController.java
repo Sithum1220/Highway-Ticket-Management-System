@@ -1,7 +1,6 @@
 package lk.ijse.microservice.ticketservice.controller;
 
 import lk.ijse.microservice.ticketservice.dto.TicketDTO;
-import lk.ijse.microservice.ticketservice.entity.Ticket;
 import lk.ijse.microservice.ticketservice.service.TicketService;
 import lk.ijse.microservice.ticketservice.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,28 +15,39 @@ public class TicketController {
     @PostMapping
     public ResponseUtil saveTicket(@RequestBody TicketDTO ticket) {
         ticketService.saveTicket(ticket);
-        return new ResponseUtil("200","Successfully Saved Ticket",null);
+        return new ResponseUtil("200", "Successfully Saved Ticket", null);
     }
 
     @GetMapping
     public ResponseUtil getAllTickets() {
-        return new ResponseUtil("200","Successfully Fetched All Tickets",ticketService.getAllTickets());
+        return new ResponseUtil("200", "Successfully Fetched All Tickets", ticketService.getAllTickets());
     }
 
-    @GetMapping(params = "id",path = "/getTicket")
+    @GetMapping(params = "id", path = "/getTicket")
     public ResponseUtil getTicket(@RequestParam("id") String id) {
-        return new ResponseUtil("200","Successfully Fetched Ticket", ticketService.getTicketById(id));
+        return new ResponseUtil("200", "Successfully Fetched Ticket", ticketService.getTicketById(id));
     }
 
     @PatchMapping
     public ResponseUtil updateTicket(@RequestBody TicketDTO ticket) {
         ticketService.updateTicket(ticket);
-        return new ResponseUtil("200","Ticket Successfully Updated",null);
+        return new ResponseUtil("200", "Ticket Successfully Updated", null);
     }
 
     @DeleteMapping
     public ResponseUtil deleteTicket(@RequestParam("id") String id) {
         ticketService.deleteTicket(id);
-        return new ResponseUtil("200","Ticket Successfully Deleted",null);
+        return new ResponseUtil("200", "Ticket Successfully Deleted", null);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseUtil updateStatus(@PathVariable("id") String id) {
+        ticketService.updateTicketStatus(id);
+        return new ResponseUtil("200", "Ticket Successfully Updated", null);
+    }
+
+    @GetMapping("/{id}")
+    public boolean checkTicketExistence(@PathVariable String id) {
+        return ticketService.existsTicket(id);
     }
 }

@@ -11,4 +11,6 @@ public interface TicketService {
     void saveTicket(TicketDTO ticket);
     void updateTicket(TicketDTO ticket);
     void deleteTicket(String id);
+    boolean existsTicket(String id);
+    void updateTicketStatus(String id);
 }
