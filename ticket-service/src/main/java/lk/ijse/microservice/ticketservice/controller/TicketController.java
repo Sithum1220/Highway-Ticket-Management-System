@@ -40,14 +40,14 @@ public class TicketController {
         return new ResponseUtil("200", "Ticket Successfully Deleted", null);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseUtil updateStatus(@PathVariable("id") String id) {
-        ticketService.updateTicketStatus(id);
+    @GetMapping("/updateStatus/{ticketId}")
+    public ResponseUtil updateStatus(@PathVariable("ticketId") String ticketId) {
+        ticketService.updateTicketStatus(ticketId);
         return new ResponseUtil("200", "Ticket Successfully Updated", null);
     }
 
-    @GetMapping("/{id}")
-    public boolean checkTicketExistence(@PathVariable String id) {
-        return ticketService.existsTicket(id);
+    @GetMapping("/checkTicket/{checkTicketId}")
+    public boolean checkTicketExistence(@PathVariable("checkTicketId") String checkTicketId) {
+        return ticketService.existsTicket(checkTicketId);
     }
 }

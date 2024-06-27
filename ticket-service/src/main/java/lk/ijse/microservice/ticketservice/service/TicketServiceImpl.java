@@ -87,5 +87,6 @@ public class TicketServiceImpl implements TicketService {
     public void updateTicketStatus(String id) {
         Ticket ticket = ticketRepository.findById(id).get();
         ticket.setStatus("Paid");
+        ticketRepository.save(ticket);
     }
 }

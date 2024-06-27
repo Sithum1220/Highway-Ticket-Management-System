@@ -8,6 +8,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -26,9 +27,11 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public void save(PaymentDTO paymentDTO) {
         if (!paymentRepository.existsById(paymentDTO.getId())) {
-            Boolean isTicketExist = restTemplate.getForObject("http://TICKET-SERVICE/api/v1/payments/" + paymentDTO.getTicketId(), Boolean.class);
+            Boolean isTicketExist = restTemplate.getForObject("http://localhost:8080/api/v1/tickets/checkTicket/" + paymentDTO.getTicketId(), Boolean.class);
             if (Boolean.TRUE.equals(isTicketExist)) {
-                restTemplate.getForObject("http://TICKET-SERVICE/api/v1/payments/" + paymentDTO.getTicketId(), String.class);
+                System.out.println("KKKKK");
+                restTemplate.getForObject("http://localhost:8080/api/v1/tickets/updateStatus/" + paymentDTO.getTicketId(), String.class);
+                paymentDTO.setPaymentDate(LocalDateTime.now());
                 paymentRepository.save(modelMapper.map(paymentDTO, Payment.class));
             }else {
                 throw new RuntimeException("Invalid ticket");
